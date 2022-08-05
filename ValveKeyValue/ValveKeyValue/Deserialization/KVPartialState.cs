@@ -10,6 +10,9 @@ namespace ValveKeyValue.Deserialization
 
         public IList<KVObject> Items { get; } = new List<KVObject>();
 
+        // TODO: Somehow merge with Items?
+        public IList<KVValue> Children { get; } = new List<KVValue>();
+
         public bool Discard { get; set; }
     }
 }

@@ -11,6 +11,11 @@
         Collection,
 
         /// <summary>
+        /// This <see cref="KVValue"/> represents an array of child <see cref="KVValue"/>s.
+        /// </summary>
+        Array,
+
+        /// <summary>
         /// This <see cref="KVValue"/> is represented by a <see cref="string"/>.
         /// </summary>
         String,
