@@ -43,6 +43,16 @@
         /// <summary>
         /// This <see cref="KVValue"/> is represented by a <see cref="long"/>.
         /// </summary>
-        Int64
+        Int64,
+
+        /// <summary>
+        /// This <see cref="KVValue"/> is represented by a <see cref="bool"/>.
+        /// </summary>
+        Boolean,
+
+        /// <summary>
+        /// This <see cref="KVValue"/> is represented by a <see cref="null"/>.
+        /// </summary>
+        Null,
     }
 }
