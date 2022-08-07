@@ -186,6 +186,8 @@ public sealed enum ValveKeyValue.KVValueType
     FloatingPoint = 5;
     Pointer = 6;
     Int64 = 7;
+    Boolean = 8;
+    Null = 9;
 
     public int CompareTo(object target);
     public bool Equals(object obj);
