@@ -18,12 +18,5 @@
         CommentBlock,
         ArrayStart,
         ArrayEnd,
-
-        SEEK_VALUE,
-        PROP_NAME,
-        VALUE_STRUCT,
-        VALUE_STRING_MULTI,
-        VALUE_NUMBER,
-        VALUE_FLAGGED,
     }
 }
