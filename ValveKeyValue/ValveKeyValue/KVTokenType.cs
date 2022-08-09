@@ -14,7 +14,9 @@
         // KeyValues3
         Header,
         Identifier,
+        Flag,
         Assignment,
+        Comma,
         CommentBlock,
         ArrayStart,
         ArrayEnd,
