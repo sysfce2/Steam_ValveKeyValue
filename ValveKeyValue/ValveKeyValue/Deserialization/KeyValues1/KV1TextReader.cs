@@ -263,13 +263,7 @@ namespace ValveKeyValue.Deserialization.KeyValues1
             if (text.Length == HexStringLengthForUnsignedLong && text.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
             {
                 var hexadecimalString = text[2..];
-                var data = ParseHexStringAsByteArray(hexadecimalString);
-
-                if (BitConverter.IsLittleEndian)
-                {
-                    Array.Reverse(data);
-                }
-
+                var data = Utils.ParseHexStringAsByteArray(hexadecimalString);
                 var value = BitConverter.ToUInt64(data, 0);
                 return new KVObjectValue<ulong>(value, KVValueType.UInt64);
             }
@@ -295,20 +289,6 @@ namespace ValveKeyValue.Deserialization.KeyValues1
             }
 
             return new KVObjectValue<string>(text, KVValueType.String);
-        }
-
-        static byte[] ParseHexStringAsByteArray(string hexadecimalRepresentation)
-        {
-            Require.NotNull(hexadecimalRepresentation, nameof(hexadecimalRepresentation));
-
-            var data = new byte[hexadecimalRepresentation.Length / 2];
-            for (var i = 0; i < data.Length; i++)
-            {
-                var currentByteText = hexadecimalRepresentation.Substring(i * 2, 2);
-                data[i] = byte.Parse(currentByteText, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
-            }
-
-            return data;
         }
     }
 }

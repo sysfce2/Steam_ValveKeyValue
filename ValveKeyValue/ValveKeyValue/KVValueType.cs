@@ -16,6 +16,11 @@
         Array,
 
         /// <summary>
+        /// This <see cref="KVValue"/> represents a blob of binary bytes of child <see cref="KVValue"/>s.
+        /// </summary>
+        BinaryBlob,
+
+        /// <summary>
         /// This <see cref="KVValue"/> is represented by a <see cref="string"/>.
         /// </summary>
         String,

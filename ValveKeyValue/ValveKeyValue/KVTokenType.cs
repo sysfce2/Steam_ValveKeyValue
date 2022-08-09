@@ -20,6 +20,6 @@
         CommentBlock,
         ArrayStart,
         ArrayEnd,
-        BinaryBlobStart,
+        BinaryBlob,
     }
 }

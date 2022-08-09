@@ -14,5 +14,7 @@ namespace ValveKeyValue.Deserialization
         public IList<KVValue> Children { get; } = new List<KVValue>();
 
         public bool Discard { get; set; }
+
+        public bool IsArray { get; set; }
     }
 }
