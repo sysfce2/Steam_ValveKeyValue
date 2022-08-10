@@ -6,6 +6,8 @@ namespace ValveKeyValue.Deserialization
     {
         public string Key { get; set; }
 
+        public KVFlag Flag { get; set; }
+
         public KVValue Value { get; set; }
 
         public IList<KVObject> Items { get; } = new List<KVObject>();
