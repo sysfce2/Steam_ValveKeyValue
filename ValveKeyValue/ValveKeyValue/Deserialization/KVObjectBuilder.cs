@@ -75,7 +75,15 @@ namespace ValveKeyValue.Deserialization
             var completedObject = MakeObject(state);
 
             var parentState = StateStack.Peek();
-            parentState.Items.Add(completedObject);
+
+            if (parentState.IsArray)
+            {
+                parentState.Children.Add(completedObject.Value); // TODO: Avoid wrapping it into KVObject in the first place?
+            }
+            else
+            {
+                parentState.Items.Add(completedObject);
+            }
         }
 
         public void OnArrayEnd()
@@ -90,7 +98,15 @@ namespace ValveKeyValue.Deserialization
             var completedObject = MakeArray(state);
 
             var parentState = StateStack.Peek();
-            parentState.Items.Add(completedObject);
+
+            if (parentState.IsArray)
+            {
+                parentState.Children.Add(completedObject.Value); // TODO: Avoid wrapping it into KVObject in the first place?
+            }
+            else
+            {
+                parentState.Items.Add(completedObject);
+            }
         }
 
         public void DiscardCurrentObject()
