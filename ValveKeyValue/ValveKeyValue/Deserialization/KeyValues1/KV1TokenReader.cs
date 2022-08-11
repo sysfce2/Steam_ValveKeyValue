@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ValveKeyValue.Deserialization.KeyValues1
 {
-    class KV1TokenReader : IDisposable
+    class KV1TokenReader : KVTokenReader
     {
         const char QuotationMark = '"';
         const char ObjectStart = '{';
@@ -16,19 +16,14 @@ namespace ValveKeyValue.Deserialization.KeyValues1
         const char ConditionEnd = ']';
         const char InclusionMark = '#';
 
-        public KV1TokenReader(TextReader textReader, KVSerializerOptions options)
+        public KV1TokenReader(TextReader textReader, KVSerializerOptions options) : base(textReader)
         {
-            Require.NotNull(textReader, nameof(textReader));
             Require.NotNull(options, nameof(options));
 
-            this.textReader = textReader;
             this.options = options;
         }
 
         readonly KVSerializerOptions options;
-        TextReader textReader;
-        bool disposed;
-        int? peekedNext;
 
         public KVToken ReadNextToken()
         {
@@ -50,17 +45,6 @@ namespace ValveKeyValue.Deserialization.KeyValues1
                 InclusionMark => ReadInclusion(),
                 _ => ReadString(),
             };
-        }
-
-        public void Dispose()
-        {
-            if (!disposed)
-            {
-                textReader.Dispose();
-                textReader = null;
-
-                disposed = true;
-            }
         }
 
         KVToken ReadString()
@@ -143,50 +127,6 @@ namespace ValveKeyValue.Deserialization.KeyValues1
             throw new InvalidDataException("Unrecognized term after '#' symbol.");
         }
 
-        char Next()
-        {
-            int next;
-
-            if (peekedNext.HasValue)
-            {
-                next = peekedNext.Value;
-                peekedNext = null;
-            }
-            else
-            {
-                next = textReader.Read();
-            }
-
-            if (next == -1)
-            {
-                throw new EndOfStreamException();
-            }
-
-            return (char)next;
-        }
-
-        int Peek()
-        {
-            if (peekedNext.HasValue)
-            {
-                return peekedNext.Value;
-            }
-
-            var next = textReader.Read();
-            peekedNext = next;
-
-            return next;
-        }
-
-        void ReadChar(char expectedChar)
-        {
-            var next = Next();
-            if (next != expectedChar)
-            {
-                throw new InvalidDataException($"The syntax is incorrect, expected '{expectedChar}' but got '{next}'.");
-            }
-        }
-
         string ReadUntil(params char[] terminators)
         {
             var sb = new StringBuilder();
@@ -254,20 +194,6 @@ namespace ValveKeyValue.Deserialization.KeyValues1
             return sb.ToString();
         }
 
-        void SwallowWhitespace()
-        {
-            while (PeekWhitespace())
-            {
-                Next();
-            }
-        }
-
-        bool PeekWhitespace()
-        {
-            var next = Peek();
-            return !IsEndOfFile(next) && char.IsWhiteSpace((char)next);
-        }
-
         string ReadStringRaw()
         {
             SwallowWhitespace();
@@ -288,7 +214,5 @@ namespace ValveKeyValue.Deserialization.KeyValues1
             ReadChar(QuotationMark);
             return text;
         }
-
-        bool IsEndOfFile(int value) => value == -1;
     }
 }
