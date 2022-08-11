@@ -122,20 +122,22 @@ namespace ValveKeyValue.Deserialization
             }
         }
 
-        public void OnObjectStart(string name)
-        {
-            var state = new KVPartialState
-            {
-                Key = name
-            };
-            StateStack.Push(state);
-        }
-
-        public void OnArrayStart(string name)
+        public void OnObjectStart(string name, KVFlag flag)
         {
             var state = new KVPartialState
             {
                 Key = name,
+                Flag = flag,
+            };
+            StateStack.Push(state);
+        }
+
+        public void OnArrayStart(string name, KVFlag flag)
+        {
+            var state = new KVPartialState
+            {
+                Key = name,
+                Flag = flag,
                 IsArray = true,
             };
             StateStack.Push(state);
@@ -192,6 +194,8 @@ namespace ValveKeyValue.Deserialization
                 @object = new KVObject(state.Key, state.Items);
             }
 
+            @object.Value.Flag = state.Flag;
+
             return @object;
         }
 
@@ -217,6 +221,8 @@ namespace ValveKeyValue.Deserialization
             {
                 @object = new KVObject(state.Key, state.Children);
             }
+
+            @object.Value.Flag = state.Flag;
 
             return @object;
         }

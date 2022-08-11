@@ -29,7 +29,7 @@ namespace ValveKeyValue.Serialization.KeyValues1
             writer.Dispose();
         }
 
-        public void OnObjectStart(string name)
+        public void OnObjectStart(string name, KVFlag flag)
             => WriteStartObject(name);
 
         public void OnObjectEnd()
@@ -38,7 +38,7 @@ namespace ValveKeyValue.Serialization.KeyValues1
         public void OnKeyValuePair(string name, KVValue value)
             => WriteKeyValuePair(name, value);
 
-        public void OnArrayStart(string name) => throw new NotImplementedException();
+        public void OnArrayStart(string name, KVFlag flag) => throw new NotImplementedException();
         public void OnArrayValue(KVValue value) => throw new NotImplementedException();
         public void OnArrayEnd() => throw new NotImplementedException();
 
